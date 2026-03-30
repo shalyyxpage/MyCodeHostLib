@@ -1,0 +1,178 @@
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8"></meta>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"></meta>
+  <title>Premium Link Access</title>
+  <style>
+    /* Clean White Background */
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background-color: #ffffff; 
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: #1e293b;
+      margin-top: -105px;
+    }
+
+    /* Premium Description Card */
+    .description-container {
+      text-align: center;
+      max-width: 450px;
+      margin-top: -18px;
+      margin-bottom: 40px;
+      padding: 25px;
+      border-radius: 24px;
+      background: #f8fafc; 
+      border: 1px solid #f1f5f9;
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+    }
+
+    .description-container p {
+      font-size: 16px;
+      line-height: 1.7;
+      font-weight: 600;
+      margin: -8px 0;
+      color: #334155;
+    }
+
+    .highlight-text {
+      color: #6366f1;
+      font-weight: 700;
+      display: block;
+      margin-top: 10px;
+    }
+
+    /* Button Layout - Grid */
+    .button-container {
+      display: grid;
+      grid-template-areas:
+        "btn1 btn2"
+        "btn3 btn3"
+        "btn4 btn5";
+      gap: 15px;
+      justify-items: center;
+      align-items: center;
+      width: 100%;
+      max-width: 360px;
+      margin-top: -20px;
+    }
+
+    /* Premium Rectangular Buttons */
+    .custom-btn {
+      width: 100%;
+      height: 60px;
+      border-radius: 14px; 
+      border: none;
+      /* Premium Blue/Indigo Gradient */
+      background: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%);
+      color: white;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);
+    }
+
+    /* Hover effect */
+    .custom-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(99, 102, 241, 0.35);
+      filter: brightness(1.1);
+    }
+
+    /* Click කළ පසු එන Premium Green Gradient එක */
+    .custom-btn.clicked {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+      box-shadow: 0 4px 10px rgba(16, 185, 129, 0.2);
+      transform: scale(0.96);
+    }
+
+    /* අලුත් Layout එකට අදාළ Grid areas */
+    #btn1 { grid-area: btn1; }
+    #btn2 { grid-area: btn2; }
+    #btn3 { grid-area: btn3; height: 65px; font-size: 18px; }
+    #btn4 { grid-area: btn4; }
+    #btn5 { grid-area: btn5; }
+
+    .copyright-box {
+      margin-top: 50px;
+      text-align: center;
+    }
+
+    .copyrighttext {
+      font-size: 12px;
+      color: #94a3b8;
+      font-weight: 600;
+      letter-spacing: 1px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="main-wrapper">
+    <div class="description-container">
+      <b>
+        <p>සයිට් එක ගොඩක් බිසි නිසා අපි ලින්ක් පහක් දාලා තියෙන්නේ</p><br />
+        <p>ලින්ක් එකක් හරි වැඩ කරේ නැති උනොත්</p><br />
+        <p>අනිත් ලින්ක් ඔබලා බලන්න</p><br />
+        <p style="color: #6366f1;">එතකොට කෙලින්ම කතාවට යයි</p>
+      </b>
+    </div>
+
+    <div class="button-container">
+      <button class="custom-btn" id="btn1" onclick="handleClick(this, 'btn1')">ලින්ක් - 01</button>
+      <button class="custom-btn" id="btn2" onclick="handleClick(this, 'btn2')">ලින්ක් - 02</button>
+      <button class="custom-btn" id="btn3" onclick="handleClick(this, 'btn3')">ලින්ක් - 03</button>
+      <button class="custom-btn" id="btn4" onclick="handleClick(this, 'btn4')">ලින්ක් - 04</button>
+      <button class="custom-btn" id="btn5" onclick="handleClick(this, 'btn5')">ලින්ක් - 05</button>
+    </div>
+
+    <div class="copyright-box">
+      <p class="copyrighttext"> </p>
+    </div>
+  </div>
+
+  <script src="https://dexamax.github.io/videx/tempLink.js"></script>
+
+  <script>
+    const finalLink = "https://anusewstoryyy.blogspot.com/2026/03/gedarata-panapu-horu.html";
+    let clickedButtons = JSON.parse(localStorage.getItem("clickedButtons")) || [];
+
+    // පිටුව Load වෙද්දී කලින් click කරපු බටන් පාට කිරීම
+    window.addEventListener('load', () => {
+      clickedButtons.forEach(id => {
+        const btn = document.getElementById(id);
+        if (btn) btn.classList.add("clicked");
+      });
+    });
+
+    function handleClick(btn, id) {
+      if (clickedButtons.includes(id)) {
+          // දැනටමත් click කරලා නම් තියෙන්නේ, අදාළ link එකට redirect කිරීම
+          window.location.href = (clickedButtons.length < 5) ? tempLink : finalLink;
+          return;
+      }
+
+      clickedButtons.push(id);
+      localStorage.setItem("clickedButtons", JSON.stringify(clickedButtons));
+      btn.classList.add("clicked");
+
+      setTimeout(() => {
+        if (clickedButtons.length < 5) {
+          // JS file එකේ තියෙන tempLink එකට යොමු කිරීම
+          window.location.href = tempLink;
+        } else {
+          // බටන් 5ම click වුණාම finalLink එකට ගොස් storage එක මකා දැමීම
+          localStorage.removeItem("clickedButtons");
+          window.location.href = finalLink;
+        }
+      }, 300);
+    }
+  </script>
+
+</body>
+</html>
