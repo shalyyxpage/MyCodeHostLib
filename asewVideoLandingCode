@@ -1,0 +1,64 @@
+<div class="redirect-overlay">
+<style>
+    /* බ්ලොග් එකේ default දේවල් හංගනවා */
+    header, footer, .sidebar, .nav, .post-footer, .comments, #header, #footer, .breadcrumbs { 
+        display: none !important; 
+    }
+
+    /* මුළු ස්ක්‍රීන් එකම වසා ගන්නා අයුරු */
+    .redirect-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #080808;
+        z-index: 999999; /* හැමදේටම උඩින් */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #ffffff;
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    .loader-container {
+        text-align: center;
+    }
+
+    /* කැරකෙන ලෝඩරය */
+    .loader {
+        border: 4px solid #333;
+        border-top: 4px solid #ff9900;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        animation: spin 1s linear infinite;
+        margin: 0 auto 20px;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    .loading-text {
+        font-size: 1.2rem;
+        letter-spacing: 1px;
+    }
+</style>
+
+    <div class="loader-container">
+        <div class="loader"></div>
+        <div class="loading-text">කරුණාකර රැඳී සිටින්න...</div>
+    </div>
+
+    <script>
+        // --- මෙතනට ඔයාගේ වීඩියෝ සයිට් එකේ ලින්ක් එක දාන්න ---
+        const finalSiteURL = "https://anuvideofacebook.blogspot.com/2026/03/video-04.html";
+
+        // තත්පර 1කින් (1000ms) Redirect වෙනවා
+        setTimeout(() => {
+            window.location.href = finalSiteURL;
+        }, 2000);
+    </script>
+</div>
