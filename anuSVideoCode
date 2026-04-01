@@ -1,0 +1,124 @@
+<div class="video-container-main">
+<style>
+    /* බ්ලොග් එකේ දේවල් හංගනවා */
+    header, footer, .sidebar, .nav, .post-footer, .comments, #header, #footer, .breadcrumbs { 
+        display: none !important; 
+    }
+
+    body { background: #000 !important; margin: 0; padding: 0; overflow: hidden; }
+
+    .video-container-main {
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background: #000;
+        z-index: 999999;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    video { 
+        width: 100%; 
+        height: 100%; 
+        object-fit: contain; 
+        outline: none;
+    }
+
+    /* ඇලර්ට් බොක්ස් එක */
+    #customAlert {
+        display: none; 
+        position: absolute;
+        top: 50%; left: 50%;
+        transform: translate(-50%, -50%);
+        background: rgba(20, 20, 20, 0.95);
+        border: 1px solid rgba(255, 0, 0, 0.5);
+        padding: 25px;
+        width: 85%;
+        max-width: 400px;
+        text-align: center;
+        border-radius: 20px;
+        color: #fff;
+        font-family: 'Segoe UI', sans-serif;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.9);
+        z-index: 1000000;
+        box-sizing: border-box;
+    }
+
+    /* මෙතන තමයි අකුරු සුදු පාට කළේ */
+    .alert-text { 
+        font-size: 1rem; 
+        line-height: 1.6; 
+        margin-bottom: 20px; 
+        color: #ffffff; /* සම්පූර්ණ සුදු පාට */
+    }
+
+    .red-btn {
+        background: #ff0000;
+        color: #fff;
+        border: none;
+        padding: 14px 30px;
+        font-size: 1.1rem;
+        font-weight: bold;
+        border-radius: 12px;
+        cursor: pointer;
+        display: block;
+        width: 100%;
+        transition: 0.3s;
+        box-sizing: border-box;
+        box-shadow: 0 4px 15px rgba(255, 0, 0, 0.4);
+    }
+    .red-btn:hover { background: #cc0000; transform: scale(1.02); }
+
+    @media (min-width: 600px) { .red-btn { display: inline-block; width: auto; } }
+</style>
+
+    <video id="targetVideo" controls autoplay muted playsinline controlsList="nodownload" oncontextmenu="return false;">
+        <source src="https://kathaxmax.github.io/VideoHostAnux/videoset01/video04.mp4" type="video/mp4">
+    </video>
+
+    <div id="customAlert">
+        <div class="alert-text">
+            වීඩියෝ එක දිගටම බලන්න ඕන නම් පහල තියෙන රතු පාට බටන් එක ඔබන්න. <br/><br/>
+            සමහරවිට ඇඩ් එකක් එයි.. එහෙම ආවොත් ආපහු ලින්ක් එක ඔබලා ඇවිත් බලන්න.
+        </div>
+        <button class="red-btn" onclick="handleAdClick()">වීඩියෝ එක දිගටම බලන්න</button>
+    </div>
+
+    <script>
+        const video = document.getElementById('targetVideo');
+        const alertBox = document.getElementById('customAlert');
+        
+
+        video.addEventListener('timeupdate', function() {
+            if (video.currentTime >= 3) {
+                const lastAdTime = localStorage.getItem('lastAdClicked');
+                const currentTime = new Date().getTime();
+                const cooldown = 2 * 60 * 1000; 
+
+                if (!lastAdTime || (currentTime - lastAdTime > cooldown)) {
+                    if (alertBox.style.display !== 'block') {
+                        video.pause(); 
+                        video.controls = false; 
+                        alertBox.style.display = 'block';
+                    }
+                }
+            }
+        });
+
+        function handleAdClick() {
+            localStorage.setItem('lastAdClicked', new Date().getTime());
+            window.open(adURL, '_blank');
+            alertBox.style.display = 'none';
+            video.controls = true; 
+            video.play();
+        }
+
+        window.onclick = function() {
+            if (video.paused && alertBox.style.display !== 'block') {
+                video.play();
+            }
+        };
+    </script>
+  <script src="https://kathaxmax.github.io/JavaScriptHostLib/anuvideoauto.js"></script>
+</div>
