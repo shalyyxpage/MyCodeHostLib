@@ -1,0 +1,137 @@
+
+
+<html lang="en" xmlns:b="http://www.google.com/2005/gml/b" xmlns:data="http://www.google.com/2005/gml/data" xmlns:expr="http://www.google.com/2005/gml/expr" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"></meta>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"></meta>
+    <title>Page</title>
+    
+    <b:skin>&lt;![CDATA[
+        /* යටින් තියෙන බ්ලොගර් කෑලි හැකිතාක් හයිඩ් කරලා දානවා */
+        #navbar-iframe, .navbar, .header-outer, .footer-outer, .sidebar-container, .mobile-header {
+            display: none !important;
+            visibility: hidden !important;
+        }
+    ]]&gt;</b:skin>
+
+    <style>
+        /* බ්ලොගර් එකේ හැම රෙද්දකටම උඩින් 100% Screen එක වැහෙන්න හදන ප්ලේට් එක */
+        .super-wrapper {
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100vw !important;
+            height: 100vh !important;
+            background-color: #f4f4f4 !important;
+            z-index: 999999999999 !important; /* මේකෙන් ලෝකේ තියෙන හැම එකටම උඩින් ඔයාගේ පේජ් එක එනවා */
+            overflow-y: auto !important;
+            box-sizing: border-box;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+
+        .description {
+            font-size: 18px;
+            margin-bottom: 20px;
+            margin-top: 40px;
+        }
+
+        .button-container {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin: 10px 0;
+            font-size: 16px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            width: 200px;
+        }
+
+        .red-button {
+            background-color: #ff3923;
+            color: white;
+        }
+
+        .green-button {
+            background-color: #21eb75;
+            color: white;
+        }
+
+        .blue-button {
+            background-color: #27a9ff;
+            color: white;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .copyrighttext{
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    
+    <div style="display: none !important;">
+        <b:section id="main" maxwidgets="1" showaddelement="no">
+            <b:widget id="Blog1" locked="true" title="Blog Posts" type="Blog" visible="false">
+        </b:widget></b:section>
+    </div>
+
+    <div class="super-wrapper">
+        
+        <div class="description">
+            <b><p>සයිට් එක ගොඩක් බිසී නිසා අපි ලින්ක් තුනක් දාලා තියෙන්නේ <br /><br /> ලින්ක් එකක් වැඩ කරේ නැති උනොත් <br /><br /> ඊලග ලින්ක් එකෙන් යන්න <br /><br />කෙලින්ම කතාවට යයි</p></b>
+        </div>
+
+        <div class="button-container">
+            <button class="red-button" onclick="handleButtonClick()">ලින්ක් - 01</button>
+            <button class="green-button" onclick="handleButtonClick()">ලින්ක් - 02</button>
+            <button class="blue-button" onclick="handleButtonClick()">ලින්ක් - 03</button>
+        </div>
+
+        <div class="description">
+            <b><p class="copyrighttext">Zapa whotta Team ©</p></b>
+        </div>
+
+    </div>
+
+   <script>
+    const thirdRedirectUrl = "https://fsbooknew.blogspot.com/2026/06/gurage-sellama.html";
+    const disableTime = 3000; 
+
+    function handleButtonClick() {
+        let clickCount = parseInt(localStorage.getItem('clickCount')) || 0;
+
+        const buttons = document.querySelectorAll("button");
+        buttons.forEach(button => button.disabled = true);
+        setTimeout(() => {
+            buttons.forEach(button => button.disabled = false);
+        }, disableTime);
+
+        if (clickCount === 0 || clickCount === 1) {
+            window.location.href = firstRedirectUrl;
+        } else if (clickCount === 2) {
+            window.location.href = thirdRedirectUrl;
+        }
+
+        clickCount = (clickCount + 1) % 3; 
+        localStorage.setItem('clickCount', clickCount);
+    }
+</script>
+    <script src="https://dexamax.github.io/videx/zaap.js"></script>
+</body>
+</html>
