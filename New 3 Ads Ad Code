@@ -1,0 +1,122 @@
+<script src="https://shalyyxpage.github.io/JavaScriptHostLib/3ads.js"></script>
+
+<div style="background: linear-gradient(135deg, rgb(30, 60, 114) 0%, rgb(42, 82, 152) 100%); border-radius: 15px; box-shadow: rgba(0, 0, 0, 0.3) 0px 10px 25px; color: white; font-family: &quot;Segoe UI&quot;, Tahoma, Geneva, Verdana, sans-serif; margin: 20px auto; max-width: 450px; padding: 25px; text-align: center;">
+    
+    <!--උඩම කොටස-->
+    <h3 id="mainTitle" style="color: white; font-size: 20px; margin-bottom: 15px;">මේ පිලිවෙලට යන්න..</h3>
+    
+    <!--Description එක-->
+    <p style="color: white; font-size: 14px; margin-bottom: 20px; opacity: 0.9;">මේ තියෙන කොළ පාට බටන් එක එබුවම ඇඩ් එකක් එයි.. එතකොට ඒකේ තප්පර 5ක් වගේ ඉන්න.. ඊටපස්සෙ බැක් වෙන්න.. ඊටපස්සෙ කොල පාට ඉර පිරෙයි ඊටපස්සේ ආයෙත් බටන් එක ඔබන්න.. ඒ විදිහට කොල පාට ඉර පිරෙනකන් තුන් පාරක් බටන් ඔබන්න වෙනවා.. ඊටපස්සෙ කෙලින්ම කතාවට යනවා..</p>
+
+    <!--Progress Bar-->
+    <div style="background: rgba(255, 255, 255, 0.2); border-radius: 10px; height: 15px; margin-bottom: 20px; overflow: hidden; position: relative; width: 100%;">
+        <div id="progressBar" style="background: rgb(0, 230, 118); height: 100%; transition: width 0.4s; width: 0%;"></div>
+    </div>
+
+    <!--Counter Text-->
+    <p style="color: white; font-size: 16px; font-weight: bold; margin-bottom: 15px;">පියවර: <span id="clickCount">0</span> / 3</p>
+
+    <!--බටන් එක-->
+    <button id="actionBtn" onclick="nextStep()" style="background: rgb(0, 230, 118); border-color: currentcolor; border-image: none; border-radius: 50px; border-style: none; border-width: medium; border: none; box-shadow: rgba(0, 0, 0, 0.3) 0px 4px 10px; color: #1e3c72; cursor: pointer; font-size: 16px; font-weight: bold; padding: 14px 30px; transition: 0.2s; width: 100%;">
+        කතාවට යන්න
+    </button>
+</div>
+
+<!--ජාවාස්ක්‍රිפט මඟින් මාරු වන අකුරු-->
+<div id="txtWarning" style="display: none;">බටන් එක ඔබලා තප්පර 05 ක් ඉදලා බැක් වෙන්න ඕන නැත්තම් කොළ පාට ඉර පිරෙන්නෙ නෑ.. ආපහු උත්සහ කරන්න</div>
+<div id="txtNext" style="display: none;">නියමයි! ඊළඟ පියවරට යන්න.</div>
+<div id="txtFinal" style="display: none;">නියමයි! දැන් කතාවට යන්න පුළුවන්!</div>
+<div id="btnStory" style="display: none;">කතාව බලන්න දැන් ඔබන්න</div>
+<div id="btnGo" style="display: none;">කතාවට යන්න</div>
+
+<script>
+    const storyLink = "https://fsbooknew.blogspot.com/2026/09/antiyaa.html";
+
+    function updateUI() {
+        // දැන් localStorage වෙනුවට සම්පූර්ණයෙන්ම sessionStorage පාවිච්චි කෙරේ
+        let step = parseInt(sessionStorage.getItem('story_step')) || 0;
+        if (isNaN(step) || step < 0) step = 0;
+
+        document.getElementById('clickCount').innerText = step;
+        document.getElementById('progressBar').style.width = (step * 33.33) + '%';
+        
+        let actionBtn = document.getElementById('actionBtn');
+        if (step >= 3) {
+            actionBtn.style.background = "#ff9800";
+            actionBtn.style.color = "#fff";
+            actionBtn.innerText = document.getElementById('btnStory').innerText;
+        } else {
+            actionBtn.style.background = "#00e676";
+            actionBtn.style.color = "#1e3c72";
+            actionBtn.innerText = document.getElementById('btnGo').innerText;
+        }
+    }
+
+    // මුල් වතාවට පේජ් එකට එද්දී 0 ලෙස පවතියි
+    updateUI();
+
+    function checkReturn() {
+        let pendingStep = sessionStorage.getItem('pending_step');
+        let startTime = sessionStorage.getItem('start_time');
+        let mainTitle = document.getElementById('mainTitle');
+
+        if (pendingStep !== null && startTime !== null) {
+            let elapsedTime = Date.now() - parseInt(startTime);
+            let currentStep = parseInt(sessionStorage.getItem('story_step')) || 0;
+
+            if (elapsedTime < 5000) {
+                mainTitle.innerText = document.getElementById('txtWarning').innerText;
+                mainTitle.style.color = "#ffeb3b";
+            } else {
+                currentStep = parseInt(pendingStep);
+                sessionStorage.setItem('story_step', currentStep);
+                
+                if (currentStep >= 3) {
+                    mainTitle.innerText = document.getElementById('txtFinal').innerText;
+                } else {
+                    mainTitle.innerText = document.getElementById('txtNext').innerText;
+                }
+                mainTitle.style.color = "#ffffff";
+            }
+
+            sessionStorage.removeItem('pending_step');
+            sessionStorage.removeItem('start_time');
+            updateUI();
+        }
+    }
+
+    // ෆෝන් සහ ලැප් දෙකටම වැඩ කරන ඉවෙන්ට්ස්
+    window.addEventListener("pageshow", function(event) {
+        checkReturn();
+    });
+
+    document.addEventListener("visibilitychange", function() {
+        if (document.visibilityState === "visible") {
+            checkReturn();
+        }
+    });
+
+    function nextStep() {
+        let step = parseInt(sessionStorage.getItem('story_step')) || 0;
+        if (isNaN(step)) step = 0;
+
+        let links = window.adLinks || [];
+
+        if (step < 3) {
+            let nextAttemptStep = step + 1;
+            
+            sessionStorage.setItem('pending_step', nextAttemptStep);
+            sessionStorage.setItem('start_time', Date.now());
+
+            if (links[step]) {
+                window.open(links[step], '_blank');
+            } else {
+                console.error("Ad links not loaded!");
+            }
+
+        } else {
+            sessionStorage.removeItem('story_step');
+            window.location.href = storyLink;
+        }
+    }
+</script>
