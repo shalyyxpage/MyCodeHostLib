@@ -1,0 +1,142 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8"></meta>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"></meta>
+  <title>Link Buttons</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 40px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: -110px;
+    }
+
+    .description {
+      text-align: center;
+      font-size: 18px;
+      margin-bottom: 30px;
+    }
+
+    .button-container {
+      display: grid;
+      grid-template-areas:
+        "btn1 btn2"
+        "btn3 btn3"
+        "btn4 btn5";
+      gap: 20px;
+      justify-items: center;
+      align-items: center;
+    }
+
+    .circle-btn {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      border: 3px solid #000;
+      background-color: white;
+      font-size: 14px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .circle-btn.clicked {
+      background-color: #21eb75 !important;
+      color: white;
+      border: none;
+    }
+
+    /* බටන් ඩිසේබල් වුණාම පේන විදිහ */
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    #btn1 { grid-area: btn1; }
+    #btn2 { grid-area: btn2; }
+    #btn3 { grid-area: btn3; }
+    #btn4 { grid-area: btn4; }
+    #btn5 { grid-area: btn5; }
+
+    .copyrighttext {
+      font-size: 12px;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="description">
+    <b>
+      <p>
+        සයිට් එක ගොඩක් බිසි නිසා අපි ලින්ක් පහක් දාලා තියෙන්නේ <br /><br />
+        ලින්ක් එකක් හරි වැඩ කරේ නැති උනොත් <br /><br />
+        ඊළඟ ලින්ක් එකෙන් යන්න <br /><br />
+        එතකොට කෙලින්ම කතාවට යයි
+      </p>
+    </b>
+  </div>
+
+  <div class="button-container">
+    <button class="circle-btn" id="btn1" onclick="handleClick(this, 'btn1')">ලින්ක් - 01</button>
+    <button class="circle-btn" id="btn2" onclick="handleClick(this, 'btn2')">ලින්ක් - 02</button>
+    <button class="circle-btn" id="btn3" onclick="handleClick(this, 'btn3')">ලින්ක් - 03</button>
+    <button class="circle-btn" id="btn4" onclick="handleClick(this, 'btn4')">ලින්ක් - 04</button>
+    <button class="circle-btn" id="btn5" onclick="handleClick(this, 'btn5')">ලින්ක් - 05</button>
+  </div>
+
+  <div class="description">
+    <b><p class="copyrighttext">කතා ලන්තේ Team ©</p></b>
+  </div>
+
+  <script>
+
+  const finalLink = "https://fsbooknew.blogspot.com/2026/11/ale-sellam.html";
+  const disableTime = 3000; // තත්පර 3ක කාලය
+
+  let clickedButtons = JSON.parse(localStorage.getItem("clickedButtons")) || [];
+
+  // Highlight already clicked buttons
+  window.onload = () => {
+    clickedButtons.forEach(id => {
+      const btn = document.getElementById(id);
+      if (btn) btn.classList.add("clicked");
+    });
+  };
+
+  function handleClick(btn, id) {
+    if (clickedButtons.includes(id)) return;
+
+    // හැම බටන් එකක්ම තත්පර 3කට ඩිසේබල් කරනවා
+    const buttons = document.querySelectorAll(".circle-btn");
+    buttons.forEach(b => b.disabled = true);
+    setTimeout(() => {
+      buttons.forEach(b => b.disabled = false);
+    }, disableTime);
+
+    clickedButtons.push(id);
+    localStorage.setItem("clickedButtons", JSON.stringify(clickedButtons));
+    btn.classList.add("clicked");
+
+    if (clickedButtons.length < 5) {
+      setTimeout(() => {
+        // window.location.href වෙනුවට replace පාවිච්චි කරලා හිස්ට්‍රි එකෙන් මේ පේජ් එක මකනවා
+        window.location.replace(tempLink);
+      }, 300);
+    } else {
+      // Clear storage BEFORE final redirect
+      localStorage.removeItem("clickedButtons");
+      setTimeout(() => {
+        // window.location.href වෙනුවට replace පාවිච්චි කරලා හිස්ට්‍රි එකෙන් මේ පේජ් එක මකනවා
+        window.location.replace(finalLink);
+      }, 500);
+    }
+  }
+</script>
+  <script src="https://dexamax.github.io/videx/tempLink.js"></script>
+
+</body>
+</html>
